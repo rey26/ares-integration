@@ -1,4 +1,6 @@
 {
+    "name": "rey26/ares-integration",
+    "description": "Integrate ARES API to retrieve business data from companies registered in Czech Republic",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
