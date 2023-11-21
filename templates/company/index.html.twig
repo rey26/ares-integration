@@ -23,7 +23,7 @@
                 </tr>
                 <tr>
                     <td>CreatedAt</td>
-                    <td>{{ company.createdAt }}</td>
+                    <td>{{ company.createdAt | date('Y-m-d') }}</td>
                 </tr>
             </table>
         {% elseif error %}
