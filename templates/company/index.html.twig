@@ -5,7 +5,10 @@
 {% block body %}
     <div class="container mt-5">
         <h1>Search for Company by ICO Number</h1>
-        {{ form(form) }}
+        {% if form %}
+            {{ form(form) }}
+            <a href="{{ url }}" class="btn btn-danger">Reset</a>
+        {% endif %}
         <hr>
         {% if company %}
             <table class="table table-bordered">

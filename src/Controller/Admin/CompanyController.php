@@ -8,36 +8,51 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Throwable;
 
 class CompanyController extends AbstractController
 {
     #[Route('/', name: 'companyIndex')]
-    public function index(Request $request, CompanyService $service): Response
+    public function index(Request $request, CompanyService $service, UrlGeneratorInterface $urlGenerator): Response
     {
-        $company = null;
-        $error = null;
-        $form = $this->createForm(CompanySearchType::class);
-        $form->handleRequest($request);
+        try {
+            $company = null;
+            $error = null;
+            $url = $urlGenerator->generate('companyIndex');
+            $form = $this->createForm(CompanySearchType::class);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $ico = $form->getData()['ico'];
-            $company = $service->getCompanyOrLoadFromAresApi($ico);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $ico = $form->getData()['ico'];
+                $company = $service->getCompanyOrLoadFromAresApi($ico);
 
-            if ($company === null) {
-                $error = "Company with given ICO: {$ico} was not found";
+                if ($company === null) {
+                    $error = "Company with given ICO: {$ico} was not found";
+                }
+
+                return $this->render('company/index.html.twig', [
+                    'form' => $form->createView(),
+                    'company' => $company,
+                    'error' => $error,
+                    'url' => $url,
+                ]);
             }
 
             return $this->render('company/index.html.twig', [
                 'form' => $form->createView(),
                 'company' => $company,
                 'error' => $error,
+                'url' => $url
+            ]);
+        } catch (Throwable $t) {
+            // TODO log error using monolog logger interface
+            return $this->render('company/index.html.twig', [
+                'form' => null,
+                'company' => null,
+                'error' => 'An error ocurred, try again later',
+                'url' => $urlGenerator->generate('companyIndex'),
             ]);
         }
-
-        return $this->render('company/index.html.twig', [
-            'form' => $form->createView(),
-            'company' => $company,
-            'error' => $error,
-        ]);
     }
 }

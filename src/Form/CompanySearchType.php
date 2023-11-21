@@ -18,7 +18,6 @@ class CompanySearchType extends AbstractType
                 'label' => 'ICO',
             ])
             ->add('submit', SubmitType::class)
-            ->add('reset', ResetType::class)
             ->setMethod('GET')
         ;
     }
