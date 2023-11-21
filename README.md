@@ -6,6 +6,7 @@ This App has REST API interface and simple UI available
 ## Installation
 
 1. `composer install`
+1. `php bin/console doctrine:migrations:migrate`
 
 ## Usage
 
