@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Form\CompanySearchType;
 use App\Service\CompanyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
