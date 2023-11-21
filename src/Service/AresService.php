@@ -11,15 +11,18 @@ class AresService
     {
     }
 
-    public function findCompanyByIco(int $ico): array
+    public function findCompanyByIco(int $ico): ?array
     {
         $xml = new SimpleXMLElement(file_get_contents($this->baseUrl . '?ico=' . $ico));
 
         $namespaces = $xml->getNamespaces(true);
         $are = $xml->children($namespaces['are']);
 
-        // TODO implement branchOfBusiness
+        if ((int) $are->Odpoved->Pocet_zaznamu === 0) {
+            return null;
+        }
 
+        // TODO implement branchOfBusiness
         return [
             'name' => (string) $are->Odpoved->Zaznam->Obchodni_firma,
             'createdAt' => (string) $are->Odpoved->Zaznam->Datum_vzniku,

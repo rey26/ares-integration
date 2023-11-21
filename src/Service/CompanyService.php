@@ -21,9 +21,13 @@ class CompanyService
         $company = $this->companyRepository->findOneBy(['ico' => $ico]);
 
         if ($company === null) {
-            $company = CompanyFactory::createFromAresArray($ico, $this->aresService->findCompanyByIco($ico));
-            $this->em->persist($company);
-            $this->em->flush();
+            $aresCompanyData = $this->aresService->findCompanyByIco($ico);
+
+            if ($aresCompanyData !== null) {
+                $company = CompanyFactory::createFromAresArray($ico, $aresCompanyData);
+                $this->em->persist($company);
+                $this->em->flush();
+            }
         }
 
         return $company;
