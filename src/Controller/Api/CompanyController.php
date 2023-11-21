@@ -2,18 +2,39 @@
 
 namespace App\Controller\Api;
 
+use App\Service\CompanyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Throwable;
 
 class CompanyController extends AbstractController
 {
-    #[Route('/company', name: 'app_company')]
-    public function index(): JsonResponse
+    public function __construct(protected SerializerInterface $serializer)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/CompanyController.php',
-        ]);
+    }
+
+    #[Route('/api/company/{ico}')]
+    public function index(CompanyService $service, int $ico): JsonResponse
+    {
+        try {
+            $company = $service->getCompanyOrLoadFromAresApi($ico);
+
+            if ($company === null) {
+                return new JsonResponse(
+                    [
+                        'data' => [],
+                        'error' => "Company with given ICO: {$ico} was not found",
+                    ],
+                    404,
+                );
+            }
+
+            return new JsonResponse($this->serializer->serialize($company, 'json'), 200, [], true);
+        } catch (Throwable $t) {
+            // TODO log error using monolog logger interface
+            return new JsonResponse(['error' => 'Unknown error, try again later'], 500);
+        }
     }
 }
