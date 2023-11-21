@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search for Company{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Search for Company by ICO Number</h1>
+        {{ form() }}
+        <hr>
+        {% if company %}
+            <table class="table table-bordered">
+                <tr>
+                    <td>ICO:</td>
+                    <td>{{ company.ico }}</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{ company.name }}</td>
+                </tr>
+                <tr>
+                    <td>Branch of business</td>
+                    <td>{{ company.branchOfBusiness }}</td>
+                </tr>
+                <tr>
+                    <td>CreatedAt</td>
+                    <td>{{ company.createdAt }}</td>
+                </tr>
+            </table>
+        {% elseif error %}
+            <p class="text-danger">{{ error }}</p>
+        {% else %}
+            <p>Try to search for the company</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
+#[ORM\UniqueConstraint(name: 'unique_name_ico', columns: ['name', 'ico'])]
 class Company
 {
     #[ORM\Id]
