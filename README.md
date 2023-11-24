@@ -6,9 +6,12 @@ This App has REST API interface and simple UI available
 ## Installation
 
 1. `composer install`
+1. `php bin/console doctrine:database:create`
 1. `php bin/console doctrine:migrations:migrate`
 
 ## Usage
+
+Make sure that you have symfony executable installed on your local machine
 
 1. run tests `php bin/phpunit`
 1. start web server: `symfony serve`
