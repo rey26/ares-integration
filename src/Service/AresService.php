@@ -18,7 +18,7 @@ class AresService
         $namespaces = $xml->getNamespaces(true);
         $are = $xml->children($namespaces['are']);
 
-        if ((int) $are->Odpoved->Pocet_zaznamu === 0) {
+        if ((int) $are?->Odpoved?->Pocet_zaznamu === 0) {
             return null;
         }
 

@@ -19,7 +19,7 @@ class CompanyController extends AbstractController
     public function index(CompanyService $service, int $ico): JsonResponse
     {
         try {
-            $company = $service->getCompanyOrLoadFromAresApi($ico);
+            $company = $service->getCompany($ico);
 
             if ($company === null) {
                 return new JsonResponse(

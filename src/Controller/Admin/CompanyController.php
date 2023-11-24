@@ -25,7 +25,7 @@ class CompanyController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $ico = $form->getData()['ico'];
-                $company = $service->getCompanyOrLoadFromAresApi($ico);
+                $company = $service->getCompany($ico);
 
                 if ($company === null) {
                     $error = "Company with given ICO: {$ico} was not found";

@@ -16,7 +16,7 @@ class CompanyService
     ) {
     }
 
-    public function getCompanyOrLoadFromAresApi(int $ico): ?Company
+    public function getCompany(int $ico): ?Company
     {
         $company = $this->companyRepository->findOneBy(['ico' => $ico]);
 
